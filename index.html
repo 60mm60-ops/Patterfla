@@ -422,9 +422,13 @@
                     <div id="layer2Controls" style="display: none;">
                         <div class="pattern-buttons" style="margin-top: 10px;">
                             <button class="layer2-btn active" data-pattern="triangles">三角形</button>
+                            <button class="layer2-btn" data-pattern="hexagons">六角形</button>
                             <button class="layer2-btn" data-pattern="circles">円形</button>
                             <button class="layer2-btn" data-pattern="diamonds">菱形</button>
+                            <button class="layer2-btn" data-pattern="waves">波形</button>
+                            <button class="layer2-btn" data-pattern="stripes">ストライプ</button>
                             <button class="layer2-btn" data-pattern="dots">ドット</button>
+                            <button class="layer2-btn" data-pattern="grid">グリッド</button>
                         </div>
                         <div class="control-row">
                             <label>L2透明度</label>
@@ -459,7 +463,11 @@
                         <div class="pattern-buttons" style="margin-top: 10px;">
                             <button class="layer3-btn active" data-pattern="circles">円形</button>
                             <button class="layer3-btn" data-pattern="triangles">三角形</button>
+                            <button class="layer3-btn" data-pattern="hexagons">六角形</button>
                             <button class="layer3-btn" data-pattern="diamonds">菱形</button>
+                            <button class="layer3-btn" data-pattern="waves">波形</button>
+                            <button class="layer3-btn" data-pattern="stripes">ストライプ</button>
+                            <button class="layer3-btn" data-pattern="dots">ドット</button>
                             <button class="layer3-btn" data-pattern="grid">グリッド</button>
                         </div>
                         <div class="control-row">
@@ -495,8 +503,12 @@
                         <div class="pattern-buttons" style="margin-top: 10px;">
                             <button class="layer4-btn active" data-pattern="dots">ドット</button>
                             <button class="layer4-btn" data-pattern="circles">円形</button>
+                            <button class="layer4-btn" data-pattern="triangles">三角形</button>
+                            <button class="layer4-btn" data-pattern="hexagons">六角形</button>
+                            <button class="layer4-btn" data-pattern="diamonds">菱形</button>
                             <button class="layer4-btn" data-pattern="waves">波形</button>
-                            <button class="layer4-btn" data-pattern="stripes">線</button>
+                            <button class="layer4-btn" data-pattern="stripes">ストライプ</button>
+                            <button class="layer4-btn" data-pattern="grid">グリッド</button>
                         </div>
                         <div class="control-row">
                             <label>L4透明度</label>
@@ -994,7 +1006,7 @@
             const svgData = new XMLSerializer().serializeToString(svg);
             const encodedSvg = encodeURIComponent(svgData);
             
-            const cssCode = `/* 生成されたパターンのCSS */
+            const cssCode = `/* パタフラ(Pattern Flash)で生成されたパターン */
 .pattern-background {
     background-image: url("data:image/svg+xml,${encodedSvg}");
     background-repeat: repeat;
@@ -1007,7 +1019,9 @@
     background-repeat: repeat;
     background-size: 100px 100px;
     min-height: 100vh;
-}`;
+}
+
+/* パタフラ(Pattern Flash): https://claude.ai */`;
             
             const blob = new Blob([cssCode], { type: 'text/css' });
             downloadFile(blob, 'pattern.css');
