@@ -1,1 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パタフラ(Pattern Flash) - 幾何学パターンジェネレーター</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 10px;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(30, 41, 59, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4338ca 0%, #7c3aed 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        @media (min-width: 768px) {
+            .main-content {
+                grid-template-columns: 320px 1fr;
+            }
+            
+            body {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 30px;
+            }
+        }
+
+        .controls {
+            background: #1e293b;
+            padding: 20px;
+            border-bottom: 1px solid #334155;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+
+        @media (min-width: 768px) {
+            .controls {
+                border-right: 1px solid #334155;
+                border-bottom: none;
+                padding: 30px;
+                max-height: none;
+            }
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group h3 {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .control-row label {
+            flex: 1;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            min-width: 60px;
+        }
+
+        .control-row input, .control-row select {
+            flex: 0 0 80px;
+            padding: 6px 10px;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        @media (min-width: 768px) {
+            .control-row input, .control-row select {
+                flex: 0 0 100px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .color-input {
+            width: 40px !important;
+            height: 35px !important;
+            border: none !important;
+            border-radius: 8px !important;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .color-input {
+                width: 50px !important;
+                height: 40px !important;
+            }
+        }
+
+        .pattern-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .pattern-btn {
+            padding: 8px 6px;
+            border: 2px solid #475569;
+            background: #334155;
+            color: #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+            .pattern-btn {
+                padding: 10px 8px;
+                font-size: 0.8rem;
+            }
+        }
+
+        .pattern-btn:hover {
+            border-color: #6366f1;
+            background: #4338ca;
+        }
+
+        .pattern-btn.active {
+            border-color: #6366f1;
+            background: #6366f1;
+            color: white;
+        }
+
+        .layer2-btn, .layer3-btn, .layer4-btn {
+            padding: 6px 4px;
+            border: 1px solid #475569;
+            background: #1e293b;
+            color: #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.65rem;
+            transition: all 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+            .layer2-btn, .layer3-btn, .layer4-btn {
+                padding: 8px 6px;
+                font-size: 0.75rem;
+            }
+        }
+
+        .layer2-btn:hover, .layer2-btn.active {
+            border-color: #059669;
+            background: #059669;
+            color: white;
+        }
+
+        .layer3-btn:hover, .layer3-btn.active {
+            border-color: #dc2626;
+            background: #dc2626;
+            color: white;
+        }
+
+        .layer4-btn:hover, .layer4-btn.active {
+            border-color: #7c3aed;
+            background: #7c3aed;
+            color: white;
+        }
+
+        .preview-area {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-controls {
+            padding: 15px 20px;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .preview-controls {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 20px 30px;
+                gap: 0;
+            }
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .export-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+            .export-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .export-btn.svg {
+            background: #059669;
+            color: white;
+        }
+
+        .export-btn.png {
+            background: #2563eb;
+            color: white;
+        }
+
+        .export-btn.css {
+            background: #d97706;
+            color: white;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .preview-container {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0f172a;
+            min-height: 300px;
+        }
+
+        @media (min-width: 768px) {
+            .preview-container {
+                padding: 30px;
+                min-height: 400px;
+            }
+        }
+
+        .preview-box {
+            width: min(90vw, 350px);
+            height: min(90vw, 350px);
+            border: 2px solid #475569;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            background: repeating-conic-gradient(#94a3b8 0% 25%, #64748b 0% 50%) 50% / 20px 20px;
+        }
+
+        @media (min-width: 768px) {
+            .preview-box {
+                width: 400px;
+                height: 400px;
+            }
+        }
+
+        #patternPreview {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .size-info {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .size-info {
+                font-size: 0.9rem;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ パタフラ (Pattern Flash)</h1>
+            <p>美しいシームレス背景パターンを瞬時に作成</p>
+        </div>
+
+        <div class="main-content">
+            <div class="controls">
+                <div class="control-group">
+                    <h3>パターンタイプ</h3>
+                    <div class="pattern-buttons">
+                        <button class="pattern-btn active" data-pattern="triangles">三角形</button>
+                        <button class="pattern-btn" data-pattern="hexagons">六角形</button>
+                        <button class="pattern-btn" data-pattern="circles">円形</button>
+                        <button class="pattern-btn" data-pattern="diamonds">菱形</button>
+                        <button class="pattern-btn" data-pattern="waves">波形</button>
+                        <button class="pattern-btn" data-pattern="stripes">ストライプ</button>
+                        <button class="pattern-btn" data-pattern="dots">ドット</button>
+                        <button class="pattern-btn" data-pattern="grid">グリッド</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>カラー設定</h3>
+                    <div class="control-row">
+                        <label>メインカラー</label>
+                        <input type="color" id="mainColor" class="color-input" value="#ff6b6b">
+                    </div>
+                    <div class="control-row">
+                        <label>サブカラー</label>
+                        <input type="color" id="subColor" class="color-input" value="#ffd93d">
+                    </div>
+                    <div class="control-row">
+                        <label>背景色</label>
+                        <input type="color" id="bgColor" class="color-input" value="#ffffff">
+                    </div>
+                    <div class="control-row">
+                        <label>背景透明度</label>
+                        <input type="range" id="bgOpacity" min="0" max="100" value="100">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>レイヤー1設定</h3>
+                    <div class="control-row">
+                        <label>サイズ</label>
+                        <input type="range" id="patternSize" min="20" max="200" value="60">
+                    </div>
+                    <div class="control-row">
+                        <label>線の太さ</label>
+                        <input type="range" id="strokeWidth" min="0" max="10" value="2">
+                    </div>
+                    <div class="control-row">
+                        <label>透明度</label>
+                        <input type="range" id="opacity" min="0" max="100" value="80">
+                    </div>
+                    <div class="control-row">
+                        <label>回転角度</label>
+                        <input type="range" id="rotation" min="0" max="360" value="0">
+                    </div>
+                    <div class="control-row">
+                        <label>X位置</label>
+                        <input type="range" id="offsetX" min="-100" max="100" value="0">
+                    </div>
+                    <div class="control-row">
+                        <label>Y位置</label>
+                        <input type="range" id="offsetY" min="-100" max="100" value="0">
+                    </div>
+                    <div class="control-row">
+                        <label>グラデーション</label>
+                        <input type="checkbox" id="useGradient" checked>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>レイヤー2組み合わせ</h3>
+                    <div class="control-row">
+                        <label>レイヤー2を追加</label>
+                        <input type="checkbox" id="useLayer2">
+                    </div>
+                    <div id="layer2Controls" style="display: none;">
+                        <div class="pattern-buttons" style="margin-top: 10px;">
+                            <button class="layer2-btn active" data-pattern="triangles">三角形</button>
+                            <button class="layer2-btn" data-pattern="circles">円形</button>
+                            <button class="layer2-btn" data-pattern="diamonds">菱形</button>
+                            <button class="layer2-btn" data-pattern="dots">ドット</button>
+                        </div>
+                        <div class="control-row">
+                            <label>L2透明度</label>
+                            <input type="range" id="layer2Opacity" min="10" max="100" value="40">
+                        </div>
+                        <div class="control-row">
+                            <label>L2サイズ</label>
+                            <input type="range" id="layer2Size" min="10" max="100" value="30">
+                        </div>
+                        <div class="control-row">
+                            <label>L2回転</label>
+                            <input type="range" id="layer2Rotation" min="0" max="360" value="45">
+                        </div>
+                        <div class="control-row">
+                            <label>L2 X位置</label>
+                            <input type="range" id="layer2OffsetX" min="-100" max="100" value="0">
+                        </div>
+                        <div class="control-row">
+                            <label>L2 Y位置</label>
+                            <input type="range" id="layer2OffsetY" min="-100" max="100" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>レイヤー3追加</h3>
+                    <div class="control-row">
+                        <label>レイヤー3を追加</label>
+                        <input type="checkbox" id="useLayer3">
+                    </div>
+                    <div id="layer3Controls" style="display: none;">
+                        <div class="pattern-buttons" style="margin-top: 10px;">
+                            <button class="layer3-btn active" data-pattern="circles">円形</button>
+                            <button class="layer3-btn" data-pattern="triangles">三角形</button>
+                            <button class="layer3-btn" data-pattern="diamonds">菱形</button>
+                            <button class="layer3-btn" data-pattern="grid">グリッド</button>
+                        </div>
+                        <div class="control-row">
+                            <label>L3透明度</label>
+                            <input type="range" id="layer3Opacity" min="10" max="100" value="30">
+                        </div>
+                        <div class="control-row">
+                            <label>L3サイズ</label>
+                            <input type="range" id="layer3Size" min="10" max="100" value="20">
+                        </div>
+                        <div class="control-row">
+                            <label>L3回転</label>
+                            <input type="range" id="layer3Rotation" min="0" max="360" value="90">
+                        </div>
+                        <div class="control-row">
+                            <label>L3 X位置</label>
+                            <input type="range" id="layer3OffsetX" min="-100" max="100" value="25">
+                        </div>
+                        <div class="control-row">
+                            <label>L3 Y位置</label>
+                            <input type="range" id="layer3OffsetY" min="-100" max="100" value="25">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>レイヤー4追加</h3>
+                    <div class="control-row">
+                        <label>レイヤー4を追加</label>
+                        <input type="checkbox" id="useLayer4">
+                    </div>
+                    <div id="layer4Controls" style="display: none;">
+                        <div class="pattern-buttons" style="margin-top: 10px;">
+                            <button class="layer4-btn active" data-pattern="dots">ドット</button>
+                            <button class="layer4-btn" data-pattern="circles">円形</button>
+                            <button class="layer4-btn" data-pattern="waves">波形</button>
+                            <button class="layer4-btn" data-pattern="stripes">線</button>
+                        </div>
+                        <div class="control-row">
+                            <label>L4透明度</label>
+                            <input type="range" id="layer4Opacity" min="10" max="100" value="25">
+                        </div>
+                        <div class="control-row">
+                            <label>L4サイズ</label>
+                            <input type="range" id="layer4Size" min="5" max="50" value="10">
+                        </div>
+                        <div class="control-row">
+                            <label>L4回転</label>
+                            <input type="range" id="layer4Rotation" min="0" max="360" value="135">
+                        </div>
+                        <div class="control-row">
+                            <label>L4 X位置</label>
+                            <input type="range" id="layer4OffsetX" min="-100" max="100" value="15">
+                        </div>
+                        <div class="control-row">
+                            <label>L4 Y位置</label>
+                            <input type="range" id="layer4OffsetY" min="-100" max="100" value="-15">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>エフェクト</h3>
+                    <div class="control-row">
+                        <label>全体回転</label>
+                        <input type="range" id="globalRotation" min="0" max="360" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-area">
+                <div class="preview-controls">
+                    <div class="size-info">
+                        プレビューサイズ: 400×400px
+                    </div>
+                    <div class="export-buttons">
+                        <button class="export-btn svg" onclick="exportSVG()">SVG</button>
+                        <button class="export-btn png" onclick="exportPNG()">PNG</button>
+                        <button class="export-btn css" onclick="exportCSS()">CSS</button>
+                    </div>
+                </div>
+                <div class="preview-container">
+                    <div class="preview-box">
+                        <svg id="patternPreview" viewBox="0 0 400 400">
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPattern = 'triangles';
+        let currentLayer2Pattern = 'triangles';
+        let currentLayer3Pattern = 'circles';
+        let currentLayer4Pattern = 'dots';
+
+        // パターン選択
+        document.querySelectorAll('.pattern-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentPattern = btn.dataset.pattern;
+                updatePattern();
+            });
+        });
+
+        // レイヤー2パターン選択
+        document.querySelectorAll('.layer2-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.layer2-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLayer2Pattern = btn.dataset.pattern;
+                updatePattern();
+            });
+        });
+
+        // レイヤー3パターン選択
+        document.querySelectorAll('.layer3-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.layer3-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLayer3Pattern = btn.dataset.pattern;
+                updatePattern();
+            });
+        });
+
+        // レイヤー4パターン選択
+        document.querySelectorAll('.layer4-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.layer4-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLayer4Pattern = btn.dataset.pattern;
+                updatePattern();
+            });
+        });
+
+        // レイヤー切り替え
+        document.getElementById('useLayer2').addEventListener('change', (e) => {
+            const controls = document.getElementById('layer2Controls');
+            controls.style.display = e.target.checked ? 'block' : 'none';
+            updatePattern();
+        });
+
+        document.getElementById('useLayer3').addEventListener('change', (e) => {
+            const controls = document.getElementById('layer3Controls');
+            controls.style.display = e.target.checked ? 'block' : 'none';
+            updatePattern();
+        });
+
+        document.getElementById('useLayer4').addEventListener('change', (e) => {
+            const controls = document.getElementById('layer4Controls');
+            controls.style.display = e.target.checked ? 'block' : 'none';
+            updatePattern();
+        });
+
+        // コントロールの変更イベント
+        ['mainColor', 'subColor', 'bgColor', 'bgOpacity', 'patternSize', 'strokeWidth', 'opacity', 'rotation', 'offsetX', 'offsetY', 'useGradient', 'globalRotation', 
+         'layer2Opacity', 'layer2Size', 'layer2Rotation', 'layer2OffsetX', 'layer2OffsetY',
+         'layer3Opacity', 'layer3Size', 'layer3Rotation', 'layer3OffsetX', 'layer3OffsetY',
+         'layer4Opacity', 'layer4Size', 'layer4Rotation', 'layer4OffsetX', 'layer4OffsetY'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', updatePattern);
+            }
+        });
+
+        function updatePattern() {
+            const mainColor = document.getElementById('mainColor').value;
+            const subColor = document.getElementById('subColor').value;
+            const bgColor = document.getElementById('bgColor').value;
+            const bgOpacity = parseInt(document.getElementById('bgOpacity').value) / 100;
+            const size = parseInt(document.getElementById('patternSize').value);
+            const strokeWidth = parseInt(document.getElementById('strokeWidth').value);
+            const opacity = parseInt(document.getElementById('opacity').value) / 100;
+            const rotation = parseInt(document.getElementById('rotation').value);
+            const offsetX = parseInt(document.getElementById('offsetX').value);
+            const offsetY = parseInt(document.getElementById('offsetY').value);
+            const useGradient = document.getElementById('useGradient').checked;
+            const globalRotation = parseInt(document.getElementById('globalRotation').value);
+
+            const svg = document.getElementById('patternPreview');
+            svg.innerHTML = '';
+
+            // 全体の回転グループ
+            const mainGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            mainGroup.setAttribute('transform', `rotate(${globalRotation} 200 200)`);
+
+            // 背景（透明度対応）
+            if (bgOpacity > 0) {
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                rect.setAttribute('width', '400');
+                rect.setAttribute('height', '400');
+                rect.setAttribute('fill', bgColor);
+                rect.setAttribute('opacity', bgOpacity);
+                mainGroup.appendChild(rect);
+            }
+
+            // グラデーション定義
+            if (useGradient) {
+                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+                gradient.setAttribute('id', 'patternGradient');
+                gradient.setAttribute('x1', '0%');
+                gradient.setAttribute('y1', '0%');
+                gradient.setAttribute('x2', '100%');
+                gradient.setAttribute('y2', '100%');
+                
+                const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                stop1.setAttribute('offset', '0%');
+                stop1.setAttribute('stop-color', mainColor);
+                
+                const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                stop2.setAttribute('offset', '100%');
+                stop2.setAttribute('stop-color', subColor);
+                
+                gradient.appendChild(stop1);
+                gradient.appendChild(stop2);
+                defs.appendChild(gradient);
+                mainGroup.appendChild(defs);
+            }
+
+            const fillColor = useGradient ? 'url(#patternGradient)' : mainColor;
+
+            // レイヤー1生成
+            const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            group.setAttribute('opacity', opacity);
+            group.setAttribute('transform', `translate(${offsetX}, ${offsetY}) rotate(${rotation} 200 200)`);
+
+            createPattern(group, currentPattern, size, fillColor, strokeWidth);
+            mainGroup.appendChild(group);
+
+            // レイヤー2の描画
+            if (document.getElementById('useLayer2').checked) {
+                const layer2Group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                const layer2Opacity = parseInt(document.getElementById('layer2Opacity').value) / 100;
+                const layer2Size = parseInt(document.getElementById('layer2Size').value);
+                const layer2Rotation = parseInt(document.getElementById('layer2Rotation').value);
+                const layer2OffsetX = parseInt(document.getElementById('layer2OffsetX').value);
+                const layer2OffsetY = parseInt(document.getElementById('layer2OffsetY').value);
+                
+                layer2Group.setAttribute('opacity', layer2Opacity);
+                layer2Group.setAttribute('transform', `translate(${layer2OffsetX}, ${layer2OffsetY}) rotate(${layer2Rotation} 200 200)`);
+
+                const layer2Color = useGradient ? 'url(#patternGradient)' : subColor;
+                createPattern(layer2Group, currentLayer2Pattern, layer2Size, layer2Color, strokeWidth);
+                mainGroup.appendChild(layer2Group);
+            }
+
+            // レイヤー3の描画
+            if (document.getElementById('useLayer3').checked) {
+                const layer3Group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                const layer3Opacity = parseInt(document.getElementById('layer3Opacity').value) / 100;
+                const layer3Size = parseInt(document.getElementById('layer3Size').value);
+                const layer3Rotation = parseInt(document.getElementById('layer3Rotation').value);
+                const layer3OffsetX = parseInt(document.getElementById('layer3OffsetX').value);
+                const layer3OffsetY = parseInt(document.getElementById('layer3OffsetY').value);
+                
+                layer3Group.setAttribute('opacity', layer3Opacity);
+                layer3Group.setAttribute('transform', `translate(${layer3OffsetX}, ${layer3OffsetY}) rotate(${layer3Rotation} 200 200)`);
+
+                // レイヤー3は赤系の色
+                const layer3Color = '#ff4757';
+                createPattern(layer3Group, currentLayer3Pattern, layer3Size, layer3Color, strokeWidth);
+                mainGroup.appendChild(layer3Group);
+            }
+
+            // レイヤー4の描画
+            if (document.getElementById('useLayer4').checked) {
+                const layer4Group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                const layer4Opacity = parseInt(document.getElementById('layer4Opacity').value) / 100;
+                const layer4Size = parseInt(document.getElementById('layer4Size').value);
+                const layer4Rotation = parseInt(document.getElementById('layer4Rotation').value);
+                const layer4OffsetX = parseInt(document.getElementById('layer4OffsetX').value);
+                const layer4OffsetY = parseInt(document.getElementById('layer4OffsetY').value);
+                
+                layer4Group.setAttribute('opacity', layer4Opacity);
+                layer4Group.setAttribute('transform', `translate(${layer4OffsetX}, ${layer4OffsetY}) rotate(${layer4Rotation} 200 200)`);
+
+                // レイヤー4は紫系の色
+                const layer4Color = '#a55eea';
+                createPattern(layer4Group, currentLayer4Pattern, layer4Size, layer4Color, strokeWidth);
+                mainGroup.appendChild(layer4Group);
+            }
+
+            svg.appendChild(mainGroup);
+        }
+
+        function createPattern(group, pattern, size, color, strokeWidth) {
+            switch (pattern) {
+                case 'triangles':
+                    createTrianglePattern(group, size, color, strokeWidth);
+                    break;
+                case 'hexagons':
+                    createHexagonPattern(group, size, color, strokeWidth);
+                    break;
+                case 'circles':
+                    createCirclePattern(group, size, color, strokeWidth);
+                    break;
+                case 'diamonds':
+                    createDiamondPattern(group, size, color, strokeWidth);
+                    break;
+                case 'waves':
+                    createWavePattern(group, size, color, strokeWidth);
+                    break;
+                case 'stripes':
+                    createStripePattern(group, size, color, strokeWidth);
+                    break;
+                case 'dots':
+                    createDotPattern(group, size, color, strokeWidth);
+                    break;
+                case 'grid':
+                    createGridPattern(group, size, color, strokeWidth);
+                    break;
+            }
+        }
+
+        function createTrianglePattern(group, size, color, strokeWidth) {
+            const rows = Math.ceil(400 / (size * 0.866)) + 2;
+            const cols = Math.ceil(400 / size) + 2;
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = col * size - size;
+                    const y = row * (size * 0.866) - size;
+                    const offset = row % 2 === 0 ? 0 : size / 2;
+
+                    const triangle = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                    const points = [
+                        [x + offset, y + size * 0.866],
+                        [x + offset + size / 2, y],
+                        [x + offset + size, y + size * 0.866]
+                    ].map(p => p.join(',')).join(' ');
+                    
+                    triangle.setAttribute('points', points);
+                    triangle.setAttribute('fill', color);
+                    triangle.setAttribute('stroke', 'rgba(255,255,255,0.3)');
+                    triangle.setAttribute('stroke-width', strokeWidth);
+                    group.appendChild(triangle);
+                }
+            }
+        }
+
+        function createHexagonPattern(group, size, color, strokeWidth) {
+            const rows = Math.ceil(400 / (size * 1.5)) + 2;
+            const cols = Math.ceil(400 / (size * Math.sqrt(3))) + 2;
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = col * (size * Math.sqrt(3)) + (row % 2 === 0 ? 0 : size * Math.sqrt(3) / 2) - size;
+                    const y = row * (size * 1.5) - size;
+
+                    const hexagon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                    const points = [];
+                    for (let i = 0; i < 6; i++) {
+                        const angle = (i * 60) * Math.PI / 180;
+                        const px = x + size * Math.cos(angle);
+                        const py = y + size * Math.sin(angle);
+                        points.push([px, py].join(','));
+                    }
+                    
+                    hexagon.setAttribute('points', points.join(' '));
+                    hexagon.setAttribute('fill', color);
+                    hexagon.setAttribute('stroke', 'rgba(255,255,255,0.3)');
+                    hexagon.setAttribute('stroke-width', strokeWidth);
+                    group.appendChild(hexagon);
+                }
+            }
+        }
+
+        function createCirclePattern(group, size, color, strokeWidth) {
+            const rows = Math.ceil(400 / size) + 2;
+            const cols = Math.ceil(400 / size) + 2;
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = col * size + (row % 2 === 0 ? 0 : size / 2) - size;
+                    const y = row * size - size;
+
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', x);
+                    circle.setAttribute('cy', y);
+                    circle.setAttribute('r', size / 3);
+                    circle.setAttribute('fill', color);
+                    circle.setAttribute('stroke', 'rgba(255,255,255,0.3)');
+                    circle.setAttribute('stroke-width', strokeWidth);
+                    group.appendChild(circle);
+                }
+            }
+        }
+
+        function createDiamondPattern(group, size, color, strokeWidth) {
+            const rows = Math.ceil(400 / size) + 2;
+            const cols = Math.ceil(400 / size) + 2;
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = col * size - size;
+                    const y = row * size - size;
+
+                    const diamond = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                    const points = [
+                        [x + size / 2, y],
+                        [x + size, y + size / 2],
+                        [x + size / 2, y + size],
+                        [x, y + size / 2]
+                    ].map(p => p.join(',')).join(' ');
+                    
+                    diamond.setAttribute('points', points);
+                    diamond.setAttribute('fill', color);
+                    diamond.setAttribute('stroke', 'rgba(255,255,255,0.3)');
+                    diamond.setAttribute('stroke-width', strokeWidth);
+                    group.appendChild(diamond);
+                }
+            }
+        }
+
+        function createWavePattern(group, size, color, strokeWidth) {
+            const rows = Math.ceil(400 / size) + 2;
+
+            for (let row = 0; row < rows; row++) {
+                const y = row * size - size;
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                
+                let d = `M 0 ${y + size / 2}`;
+                for (let x = 0; x <= 400; x += size / 4) {
+                    const waveY = y + size / 2 + Math.sin((x / size) * Math.PI) * (size / 4);
+                    d += ` L ${x} ${waveY}`;
+                }
+                
+                path.setAttribute('d', d);
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke', color);
+                path.setAttribute('stroke-width', strokeWidth + 2);
+                path.setAttribute('stroke-linecap', 'round');
+                group.appendChild(path);
+            }
+        }
+
+        function createStripePattern(group, size, color, strokeWidth) {
+            const stripes = Math.ceil(400 / size) + 2;
+
+            for (let i = 0; i < stripes; i++) {
+                if (i % 2 === 0) {
+                    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    rect.setAttribute('x', '0');
+                    rect.setAttribute('y', i * size - size);
+                    rect.setAttribute('width', '400');
+                    rect.setAttribute('height', size);
+                    rect.setAttribute('fill', color);
+                    group.appendChild(rect);
+                }
+            }
+        }
+
+        function createDotPattern(group, size, color, strokeWidth) {
+            const rows = Math.ceil(400 / size) + 2;
+            const cols = Math.ceil(400 / size) + 2;
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = col * size - size;
+                    const y = row * size - size;
+
+                    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    dot.setAttribute('cx', x + size / 2);
+                    dot.setAttribute('cy', y + size / 2);
+                    dot.setAttribute('r', size / 8);
+                    dot.setAttribute('fill', color);
+                    group.appendChild(dot);
+                }
+            }
+        }
+
+        function createGridPattern(group, size, color, strokeWidth) {
+            // 縦線
+            for (let x = 0; x <= 400; x += size) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x);
+                line.setAttribute('y1', 0);
+                line.setAttribute('x2', x);
+                line.setAttribute('y2', 400);
+                line.setAttribute('stroke', color);
+                line.setAttribute('stroke-width', strokeWidth);
+                group.appendChild(line);
+            }
+
+            // 横線
+            for (let y = 0; y <= 400; y += size) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', 0);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', 400);
+                line.setAttribute('y2', y);
+                line.setAttribute('stroke', color);
+                line.setAttribute('stroke-width', strokeWidth);
+                group.appendChild(line);
+            }
+        }
+
+        function exportSVG() {
+            const svg = document.getElementById('patternPreview');
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const blob = new Blob([svgData], { type: 'image/svg+xml' });
+            downloadFile(blob, 'pattern.svg');
+        }
+
+        function exportPNG() {
+            const svg = document.getElementById('patternPreview');
+            const canvas = document.createElement('canvas');
+            canvas.width = 800;
+            canvas.height = 800;
+            const ctx = canvas.getContext('2d');
+            
+            const img = new Image();
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const blob = new Blob([svgData], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0, 800, 800);
+                canvas.toBlob(function(blob) {
+                    downloadFile(blob, 'pattern.png');
+                    URL.revokeObjectURL(url);
+                });
+            };
+            img.src = url;
+        }
+
+        function exportCSS() {
+            const svg = document.getElementById('patternPreview');
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const encodedSvg = encodeURIComponent(svgData);
+            
+            const cssCode = `/* 生成されたパターンのCSS */
+.pattern-background {
+    background-image: url("data:image/svg+xml,${encodedSvg}");
+    background-repeat: repeat;
+    background-size: 100px 100px; /* お好みでサイズを調整 */
+}
+
+/* 使用例 */
+.my-element {
+    background-image: url("data:image/svg+xml,${encodedSvg}");
+    background-repeat: repeat;
+    background-size: 100px 100px;
+    min-height: 100vh;
+}`;
+            
+            const blob = new Blob([cssCode], { type: 'text/css' });
+            downloadFile(blob, 'pattern.css');
+        }
+
+        function downloadFile(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // 初期パターン生成
+        updatePattern();
+    </script>
+</body>
+</html>
