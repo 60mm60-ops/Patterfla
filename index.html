@@ -1,9 +1,4 @@
-<div class="preview-container">
-                    <div class="preview-box">
-                        <svg id="patternPreview" viewBox="0 0 400 400" role="img" aria-label="生成されたパターンのプレビュー">
-                        </svg>
-                    </div>
-                </div><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -86,7 +81,7 @@
                 border-right: 1px solid #334155;
                 border-bottom: none;
                 padding: 30px;
-                max-height: none;
+                max-height: 80vh;
             }
         }
 
@@ -143,13 +138,6 @@
             cursor: pointer;
         }
 
-        @media (min-width: 768px) {
-            .color-input {
-                width: 50px !important;
-                height: 40px !important;
-            }
-        }
-
         .pattern-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -166,13 +154,6 @@
             cursor: pointer;
             font-size: 0.7rem;
             transition: all 0.3s ease;
-        }
-
-        @media (min-width: 768px) {
-            .pattern-btn {
-                padding: 10px 8px;
-                font-size: 0.8rem;
-            }
         }
 
         .pattern-btn:hover {
@@ -195,13 +176,6 @@
             cursor: pointer;
             font-size: 0.65rem;
             transition: all 0.3s ease;
-        }
-
-        @media (min-width: 768px) {
-            .layer2-btn, .layer3-btn, .layer4-btn {
-                padding: 8px 6px;
-                font-size: 0.75rem;
-            }
         }
 
         .layer2-btn:hover, .layer2-btn.active {
@@ -306,25 +280,6 @@
             background: #b91c1c;
         }
 
-        .animation-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-            margin-left: 8px;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        .animation-playing {
-            border: 2px solid #10b981 !important;
-        }
-
         .preview-area {
             display: flex;
             flex-direction: column;
@@ -363,13 +318,6 @@
             font-weight: 600;
             font-size: 0.8rem;
             transition: all 0.3s ease;
-        }
-
-        @media (min-width: 768px) {
-            .export-btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
         }
 
         .export-btn.svg {
@@ -458,25 +406,25 @@
                 <div class="control-group">
                     <h3>プリセット</h3>
                     <div class="control-row">
-                        <button class="preset-btn save-btn" onclick="savePreset()" aria-label="現在のパターン設定を保存">💾 保存</button>
-                        <button class="preset-btn random-btn" onclick="randomPreset()" aria-label="ランダムなパターンを生成">🎲 ランダム</button>
+                        <button class="preset-btn save-btn" onclick="savePreset()">💾 保存</button>
+                        <button class="preset-btn random-btn" onclick="randomPreset()">🎲 ランダム</button>
                     </div>
-                    <div id="presetList" aria-label="保存されたプリセット一覧">
+                    <div id="presetList">
                         <!-- プリセットが動的に追加される -->
                     </div>
                 </div>
 
                 <div class="control-group">
                     <h3>パターンタイプ</h3>
-                    <div class="pattern-buttons" role="group" aria-label="メインパターンの選択">
-                        <button class="pattern-btn active" data-pattern="triangles" aria-label="三角形パターンを適用">三角形</button>
-                        <button class="pattern-btn" data-pattern="hexagons" aria-label="六角形パターンを適用">六角形</button>
-                        <button class="pattern-btn" data-pattern="circles" aria-label="円形パターンを適用">円形</button>
-                        <button class="pattern-btn" data-pattern="diamonds" aria-label="菱形パターンを適用">菱形</button>
-                        <button class="pattern-btn" data-pattern="waves" aria-label="波形パターンを適用">波形</button>
-                        <button class="pattern-btn" data-pattern="stripes" aria-label="ストライプパターンを適用">ストライプ</button>
-                        <button class="pattern-btn" data-pattern="dots" aria-label="ドットパターンを適用">ドット</button>
-                        <button class="pattern-btn" data-pattern="grid" aria-label="グリッドパターンを適用">グリッド</button>
+                    <div class="pattern-buttons">
+                        <button class="pattern-btn active" data-pattern="triangles">三角形</button>
+                        <button class="pattern-btn" data-pattern="hexagons">六角形</button>
+                        <button class="pattern-btn" data-pattern="circles">円形</button>
+                        <button class="pattern-btn" data-pattern="diamonds">菱形</button>
+                        <button class="pattern-btn" data-pattern="waves">波形</button>
+                        <button class="pattern-btn" data-pattern="stripes">ストライプ</button>
+                        <button class="pattern-btn" data-pattern="dots">ドット</button>
+                        <button class="pattern-btn" data-pattern="grid">グリッド</button>
                     </div>
                 </div>
 
@@ -484,19 +432,19 @@
                     <h3>カラー設定</h3>
                     <div class="control-row">
                         <label for="mainColor">メインカラー</label>
-                        <input type="color" id="mainColor" class="color-input" value="#ff6b6b" aria-label="メインカラーを選択">
+                        <input type="color" id="mainColor" class="color-input" value="#ff6b6b">
                     </div>
                     <div class="control-row">
                         <label for="subColor">サブカラー</label>
-                        <input type="color" id="subColor" class="color-input" value="#ffd93d" aria-label="サブカラーを選択">
+                        <input type="color" id="subColor" class="color-input" value="#ffd93d">
                     </div>
                     <div class="control-row">
                         <label for="bgColor">背景色</label>
-                        <input type="color" id="bgColor" class="color-input" value="#ffffff" aria-label="背景色を選択">
+                        <input type="color" id="bgColor" class="color-input" value="#ffffff">
                     </div>
                     <div class="control-row">
                         <label for="bgOpacity">背景透明度</label>
-                        <input type="range" id="bgOpacity" min="0" max="100" value="100" aria-label="背景透明度を0から100で調整">
+                        <input type="range" id="bgOpacity" min="0" max="100" value="100">
                     </div>
                 </div>
 
@@ -504,31 +452,31 @@
                     <h3>レイヤー1設定</h3>
                     <div class="control-row">
                         <label for="patternSize">サイズ</label>
-                        <input type="range" id="patternSize" min="20" max="200" value="60" aria-label="パターンサイズを20から200で調整">
+                        <input type="range" id="patternSize" min="20" max="200" value="60">
                     </div>
                     <div class="control-row">
                         <label for="strokeWidth">線の太さ</label>
-                        <input type="range" id="strokeWidth" min="0" max="10" value="2" aria-label="線の太さを0から10で調整">
+                        <input type="range" id="strokeWidth" min="0" max="10" value="2">
                     </div>
                     <div class="control-row">
                         <label for="opacity">透明度</label>
-                        <input type="range" id="opacity" min="0" max="100" value="80" aria-label="透明度を0から100で調整">
+                        <input type="range" id="opacity" min="0" max="100" value="80">
                     </div>
                     <div class="control-row">
                         <label for="rotation">回転角度</label>
-                        <input type="range" id="rotation" min="0" max="360" value="0" aria-label="回転角度を0から360度で調整">
+                        <input type="range" id="rotation" min="0" max="360" value="0">
                     </div>
                     <div class="control-row">
                         <label for="offsetX">X位置</label>
-                        <input type="range" id="offsetX" min="-100" max="100" value="0" aria-label="X軸の位置を-100から100で調整">
+                        <input type="range" id="offsetX" min="-100" max="100" value="0">
                     </div>
                     <div class="control-row">
                         <label for="offsetY">Y位置</label>
-                        <input type="range" id="offsetY" min="-100" max="100" value="0" aria-label="Y軸の位置を-100から100で調整">
+                        <input type="range" id="offsetY" min="-100" max="100" value="0">
                     </div>
                     <div class="control-row">
                         <label for="useGradient">グラデーション</label>
-                        <input type="checkbox" id="useGradient" checked aria-label="グラデーション効果を有効にする">
+                        <input type="checkbox" id="useGradient" checked>
                     </div>
                 </div>
 
@@ -536,118 +484,38 @@
                     <h3>レイヤー2組み合わせ</h3>
                     <div class="control-row">
                         <label for="useLayer2">レイヤー2を追加</label>
-                        <input type="checkbox" id="useLayer2" aria-label="レイヤー2を有効にして重ね合わせパターンを作成">
+                        <input type="checkbox" id="useLayer2">
                     </div>
                     <div id="layer2Controls" style="display: none;">
-                        <div class="pattern-buttons" style="margin-top: 10px;" role="group" aria-label="レイヤー2のパターン選択">
-                            <button class="layer2-btn active" data-pattern="triangles" aria-label="レイヤー2に三角形パターンを適用">三角形</button>
-                            <button class="layer2-btn" data-pattern="hexagons" aria-label="レイヤー2に六角形パターンを適用">六角形</button>
-                            <button class="layer2-btn" data-pattern="circles" aria-label="レイヤー2に円形パターンを適用">円形</button>
-                            <button class="layer2-btn" data-pattern="diamonds" aria-label="レイヤー2に菱形パターンを適用">菱形</button>
-                            <button class="layer2-btn" data-pattern="waves" aria-label="レイヤー2に波形パターンを適用">波形</button>
-                            <button class="layer2-btn" data-pattern="stripes" aria-label="レイヤー2にストライプパターンを適用">ストライプ</button>
-                            <button class="layer2-btn" data-pattern="dots" aria-label="レイヤー2にドットパターンを適用">ドット</button>
-                            <button class="layer2-btn" data-pattern="grid" aria-label="レイヤー2にグリッドパターンを適用">グリッド</button>
+                        <div class="pattern-buttons" style="margin-top: 10px;">
+                            <button class="layer2-btn active" data-pattern="triangles">三角形</button>
+                            <button class="layer2-btn" data-pattern="hexagons">六角形</button>
+                            <button class="layer2-btn" data-pattern="circles">円形</button>
+                            <button class="layer2-btn" data-pattern="diamonds">菱形</button>
+                            <button class="layer2-btn" data-pattern="waves">波形</button>
+                            <button class="layer2-btn" data-pattern="stripes">ストライプ</button>
+                            <button class="layer2-btn" data-pattern="dots">ドット</button>
+                            <button class="layer2-btn" data-pattern="grid">グリッド</button>
                         </div>
                         <div class="control-row">
                             <label for="layer2Opacity">L2透明度</label>
-                            <input type="range" id="layer2Opacity" min="10" max="100" value="40" aria-label="レイヤー2の透明度を10から100で調整">
+                            <input type="range" id="layer2Opacity" min="10" max="100" value="40">
                         </div>
                         <div class="control-row">
                             <label for="layer2Size">L2サイズ</label>
-                            <input type="range" id="layer2Size" min="10" max="100" value="30" aria-label="レイヤー2のサイズを10から100で調整">
+                            <input type="range" id="layer2Size" min="10" max="100" value="30">
                         </div>
                         <div class="control-row">
                             <label for="layer2Rotation">L2回転</label>
-                            <input type="range" id="layer2Rotation" min="0" max="360" value="45" aria-label="レイヤー2の回転角度を0から360度で調整">
+                            <input type="range" id="layer2Rotation" min="0" max="360" value="45">
                         </div>
                         <div class="control-row">
                             <label for="layer2OffsetX">L2 X位置</label>
-                            <input type="range" id="layer2OffsetX" min="-100" max="100" value="0" aria-label="レイヤー2のX軸位置を-100から100で調整">
+                            <input type="range" id="layer2OffsetX" min="-100" max="100" value="0">
                         </div>
                         <div class="control-row">
                             <label for="layer2OffsetY">L2 Y位置</label>
-                            <input type="range" id="layer2OffsetY" min="-100" max="100" value="0" aria-label="レイヤー2のY軸位置を-100から100で調整">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <h3>レイヤー3追加</h3>
-                    <div class="control-row">
-                        <label for="useLayer3">レイヤー3を追加</label>
-                        <input type="checkbox" id="useLayer3" aria-label="レイヤー3を有効にしてさらに複雑なパターンを作成">
-                    </div>
-                    <div id="layer3Controls" style="display: none;">
-                        <div class="pattern-buttons" style="margin-top: 10px;" role="group" aria-label="レイヤー3のパターン選択">
-                            <button class="layer3-btn active" data-pattern="circles" aria-label="レイヤー3に円形パターンを適用">円形</button>
-                            <button class="layer3-btn" data-pattern="triangles" aria-label="レイヤー3に三角形パターンを適用">三角形</button>
-                            <button class="layer3-btn" data-pattern="hexagons" aria-label="レイヤー3に六角形パターンを適用">六角形</button>
-                            <button class="layer3-btn" data-pattern="diamonds" aria-label="レイヤー3に菱形パターンを適用">菱形</button>
-                            <button class="layer3-btn" data-pattern="waves" aria-label="レイヤー3に波形パターンを適用">波形</button>
-                            <button class="layer3-btn" data-pattern="stripes" aria-label="レイヤー3にストライプパターンを適用">ストライプ</button>
-                            <button class="layer3-btn" data-pattern="dots" aria-label="レイヤー3にドットパターンを適用">ドット</button>
-                            <button class="layer3-btn" data-pattern="grid" aria-label="レイヤー3にグリッドパターンを適用">グリッド</button>
-                        </div>
-                        <div class="control-row">
-                            <label for="layer3Opacity">L3透明度</label>
-                            <input type="range" id="layer3Opacity" min="10" max="100" value="30" aria-label="レイヤー3の透明度を10から100で調整">
-                        </div>
-                        <div class="control-row">
-                            <label for="layer3Size">L3サイズ</label>
-                            <input type="range" id="layer3Size" min="10" max="100" value="20" aria-label="レイヤー3のサイズを10から100で調整">
-                        </div>
-                        <div class="control-row">
-                            <label for="layer3Rotation">L3回転</label>
-                            <input type="range" id="layer3Rotation" min="0" max="360" value="90" aria-label="レイヤー3の回転角度を0から360度で調整">
-                        </div>
-                        <div class="control-row">
-                            <label for="layer3OffsetX">L3 X位置</label>
-                            <input type="range" id="layer3OffsetX" min="-100" max="100" value="25" aria-label="レイヤー3のX軸位置を-100から100で調整">
-                        </div>
-                        <div class="control-row">
-                            <label for="layer3OffsetY">L3 Y位置</label>
-                            <input type="range" id="layer3OffsetY" min="-100" max="100" value="25" aria-label="レイヤー3のY軸位置を-100から100で調整">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <h3>レイヤー4追加</h3>
-                    <div class="control-row">
-                        <label for="useLayer4">レイヤー4を追加</label>
-                        <input type="checkbox" id="useLayer4" aria-label="レイヤー4を有効にして最高レベルの複雑なパターンを作成">
-                    </div>
-                    <div id="layer4Controls" style="display: none;">
-                        <div class="pattern-buttons" style="margin-top: 10px;" role="group" aria-label="レイヤー4のパターン選択">
-                            <button class="layer4-btn active" data-pattern="dots" aria-label="レイヤー4にドットパターンを適用">ドット</button>
-                            <button class="layer4-btn" data-pattern="circles" aria-label="レイヤー4に円形パターンを適用">円形</button>
-                            <button class="layer4-btn" data-pattern="triangles" aria-label="レイヤー4に三角形パターンを適用">三角形</button>
-                            <button class="layer4-btn" data-pattern="hexagons" aria-label="レイヤー4に六角形パターンを適用">六角形</button>
-                            <button class="layer4-btn" data-pattern="diamonds" aria-label="レイヤー4に菱形パターンを適用">菱形</button>
-                            <button class="layer4-btn" data-pattern="waves" aria-label="レイヤー4に波形パターンを適用">波形</button>
-                            <button class="layer4-btn" data-pattern="stripes" aria-label="レイヤー4にストライプパターンを適用">ストライプ</button>
-                            <button class="layer4-btn" data-pattern="grid" aria-label="レイヤー4にグリッドパターンを適用">グリッド</button>
-                        </div>
-                        <div class="control-row">
-                            <label for="layer4Opacity">L4透明度</label>
-                            <input type="range" id="layer4Opacity" min="10" max="100" value="25" aria-label="レイヤー4の透明度を10から100で調整">
-                        </div>
-                        <div class="control-row">
-                            <label for="layer4Size">L4サイズ</label>
-                            <input type="range" id="layer4Size" min="5" max="50" value="10" aria-label="レイヤー4のサイズを5から50で調整">
-                        </div>
-                        <div class="control-row">
-                            <label for="layer4Rotation">L4回転</label>
-                            <input type="range" id="layer4Rotation" min="0" max="360" value="135" aria-label="レイヤー4の回転角度を0から360度で調整">
-                        </div>
-                        <div class="control-row">
-                            <label for="layer4OffsetX">L4 X位置</label>
-                            <input type="range" id="layer4OffsetX" min="-100" max="100" value="15" aria-label="レイヤー4のX軸位置を-100から100で調整">
-                        </div>
-                        <div class="control-row">
-                            <label for="layer4OffsetY">L4 Y位置</label>
-                            <input type="range" id="layer4OffsetY" min="-100" max="100" value="-15" aria-label="レイヤー4のY軸位置を-100から100で調整">
+                            <input type="range" id="layer2OffsetY" min="-100" max="100" value="0">
                         </div>
                     </div>
                 </div>
@@ -656,34 +524,7 @@
                     <h3>エフェクト</h3>
                     <div class="control-row">
                         <label for="globalRotation">全体回転</label>
-                        <input type="range" id="globalRotation" min="0" max="360" value="0" aria-label="全てのレイヤーを含む全体回転を0から360度で調整">
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <h3>アニメーション</h3>
-                    <div class="control-row">
-                        <label for="enableAnimation">アニメーション</label>
-                        <input type="checkbox" id="enableAnimation" aria-label="パターンアニメーションを有効にする">
-                    </div>
-                    <div id="animationControls" style="display: none;">
-                        <div class="control-row">
-                            <label for="animationSpeed">速度</label>
-                            <input type="range" id="animationSpeed" min="1" max="10" value="3" aria-label="アニメーションの速度を1から10で調整">
-                        </div>
-                        <div class="control-row">
-                            <label for="animationType">種類</label>
-                            <select id="animationType" aria-label="アニメーションの種類を選択">
-                                <option value="rotate">回転</option>
-                                <option value="pulse">パルス</option>
-                                <option value="wave">波動</option>
-                                <option value="drift">ドリフト</option>
-                            </select>
-                        </div>
-                        <div class="control-row">
-                            <label for="animationIntensity">強度</label>
-                            <input type="range" id="animationIntensity" min="1" max="10" value="5" aria-label="アニメーションの強度を1から10で調整">
-                        </div>
+                        <input type="range" id="globalRotation" min="0" max="360" value="0">
                     </div>
                 </div>
             </div>
@@ -694,9 +535,9 @@
                         プレビューサイズ: 400×400px
                     </div>
                     <div class="export-buttons">
-                        <button class="export-btn svg" onclick="exportSVG()" aria-label="SVG形式でパターンをダウンロード">SVG</button>
-                        <button class="export-btn png" onclick="exportPNG()" aria-label="PNG形式でパターンをダウンロード">PNG</button>
-                        <button class="export-btn css" onclick="exportCSS()" aria-label="CSS形式でパターンをダウンロード">CSS</button>
+                        <button class="export-btn svg" onclick="exportSVG()">SVG</button>
+                        <button class="export-btn png" onclick="exportPNG()">PNG</button>
+                        <button class="export-btn css" onclick="exportCSS()">CSS</button>
                     </div>
                 </div>
                 <div class="preview-container">
@@ -712,8 +553,6 @@
     <script>
         let currentPattern = 'triangles';
         let currentLayer2Pattern = 'triangles';
-        let currentLayer3Pattern = 'circles';
-        let currentLayer4Pattern = 'dots';
 
         // パターン選択
         document.querySelectorAll('.pattern-btn').forEach(btn => {
@@ -735,26 +574,6 @@
             });
         });
 
-        // レイヤー3パターン選択
-        document.querySelectorAll('.layer3-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.layer3-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentLayer3Pattern = btn.dataset.pattern;
-                updatePattern();
-            });
-        });
-
-        // レイヤー4パターン選択
-        document.querySelectorAll('.layer4-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.layer4-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentLayer4Pattern = btn.dataset.pattern;
-                updatePattern();
-            });
-        });
-
         // レイヤー切り替え
         document.getElementById('useLayer2').addEventListener('change', (e) => {
             const controls = document.getElementById('layer2Controls');
@@ -762,23 +581,9 @@
             updatePattern();
         });
 
-        document.getElementById('useLayer3').addEventListener('change', (e) => {
-            const controls = document.getElementById('layer3Controls');
-            controls.style.display = e.target.checked ? 'block' : 'none';
-            updatePattern();
-        });
-
-        document.getElementById('useLayer4').addEventListener('change', (e) => {
-            const controls = document.getElementById('layer4Controls');
-            controls.style.display = e.target.checked ? 'block' : 'none';
-            updatePattern();
-        });
-
         // コントロールの変更イベント
         ['mainColor', 'subColor', 'bgColor', 'bgOpacity', 'patternSize', 'strokeWidth', 'opacity', 'rotation', 'offsetX', 'offsetY', 'useGradient', 'globalRotation', 
-         'layer2Opacity', 'layer2Size', 'layer2Rotation', 'layer2OffsetX', 'layer2OffsetY',
-         'layer3Opacity', 'layer3Size', 'layer3Rotation', 'layer3OffsetX', 'layer3OffsetY',
-         'layer4Opacity', 'layer4Size', 'layer4Rotation', 'layer4OffsetX', 'layer4OffsetY'].forEach(id => {
+         'layer2Opacity', 'layer2Size', 'layer2Rotation', 'layer2OffsetX', 'layer2OffsetY'].forEach(id => {
             const element = document.getElementById(id);
             if (element) {
                 element.addEventListener('input', updatePattern);
@@ -868,42 +673,6 @@
                 const layer2Color = useGradient ? `url(#${window.currentGradientId})` : subColor;
                 createPattern(layer2Group, currentLayer2Pattern, layer2Size, layer2Color, strokeWidth);
                 mainGroup.appendChild(layer2Group);
-            }
-
-            // レイヤー3の描画
-            if (document.getElementById('useLayer3').checked) {
-                const layer3Group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                const layer3Opacity = parseInt(document.getElementById('layer3Opacity').value) / 100;
-                const layer3Size = parseInt(document.getElementById('layer3Size').value);
-                const layer3Rotation = parseInt(document.getElementById('layer3Rotation').value);
-                const layer3OffsetX = parseInt(document.getElementById('layer3OffsetX').value);
-                const layer3OffsetY = parseInt(document.getElementById('layer3OffsetY').value);
-                
-                layer3Group.setAttribute('opacity', layer3Opacity);
-                layer3Group.setAttribute('transform', `translate(${layer3OffsetX}, ${layer3OffsetY}) rotate(${layer3Rotation} 200 200)`);
-
-                // レイヤー3は赤系の色
-                const layer3Color = '#ff4757';
-                createPattern(layer3Group, currentLayer3Pattern, layer3Size, layer3Color, strokeWidth);
-                mainGroup.appendChild(layer3Group);
-            }
-
-            // レイヤー4の描画
-            if (document.getElementById('useLayer4').checked) {
-                const layer4Group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                const layer4Opacity = parseInt(document.getElementById('layer4Opacity').value) / 100;
-                const layer4Size = parseInt(document.getElementById('layer4Size').value);
-                const layer4Rotation = parseInt(document.getElementById('layer4Rotation').value);
-                const layer4OffsetX = parseInt(document.getElementById('layer4OffsetX').value);
-                const layer4OffsetY = parseInt(document.getElementById('layer4OffsetY').value);
-                
-                layer4Group.setAttribute('opacity', layer4Opacity);
-                layer4Group.setAttribute('transform', `translate(${layer4OffsetX}, ${layer4OffsetY}) rotate(${layer4Rotation} 200 200)`);
-
-                // レイヤー4は紫系の色
-                const layer4Color = '#a55eea';
-                createPattern(layer4Group, currentLayer4Pattern, layer4Size, layer4Color, strokeWidth);
-                mainGroup.appendChild(layer4Group);
             }
 
             svg.appendChild(mainGroup);
@@ -1135,13 +904,6 @@
             canvas.height = 800;
             const ctx = canvas.getContext('2d');
             
-            // 透明背景の場合は白背景を追加（PNG出力時）
-            const bgOpacity = parseInt(document.getElementById('bgOpacity').value) / 100;
-            if (bgOpacity === 0) {
-                ctx.fillStyle = 'white';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-            }
-            
             const img = new Image();
             const svgData = new XMLSerializer().serializeToString(svg);
             const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
@@ -1154,35 +916,20 @@
                     URL.revokeObjectURL(url);
                 }, 'image/png');
             };
-            img.onerror = function() {
-                console.error('PNG変換エラー');
-                URL.revokeObjectURL(url);
-            };
             img.src = url;
         }
 
         function exportCSS() {
             const svg = document.getElementById('patternPreview');
             const svgData = new XMLSerializer().serializeToString(svg);
-            // Base64エンコードで安全な出力
             const encodedSvg = btoa(unescape(encodeURIComponent(svgData)));
             
             const cssCode = `/* パタフラ(Pattern Flash)で生成されたパターン */
 .pattern-background {
     background-image: url("data:image/svg+xml;base64,${encodedSvg}");
     background-repeat: repeat;
-    background-size: 100px 100px; /* お好みでサイズを調整 */
-}
-
-/* 使用例 */
-.my-element {
-    background-image: url("data:image/svg+xml;base64,${encodedSvg}");
-    background-repeat: repeat;
     background-size: 100px 100px;
-    min-height: 100vh;
-}
-
-/* パタフラ(Pattern Flash): https://claude.ai */`;
+}`;
             
             const blob = new Blob([cssCode], { type: 'text/css' });
             downloadFile(blob, 'patafla-pattern.css');
@@ -1199,11 +946,6 @@
             URL.revokeObjectURL(url);
         }
 
-        // 初期パターン生成
-        updatePattern();
-        loadPresets();
-
-        // プリセット機能
         function savePreset() {
             const name = prompt('プリセット名を入力してください:', `パターン${Date.now().toString().slice(-4)}`);
             if (!name) return;
@@ -1231,21 +973,7 @@
                     layer2Size: document.getElementById('layer2Size').value,
                     layer2Rotation: document.getElementById('layer2Rotation').value,
                     layer2OffsetX: document.getElementById('layer2OffsetX').value,
-                    layer2OffsetY: document.getElementById('layer2OffsetY').value,
-                    useLayer3: document.getElementById('useLayer3').checked,
-                    currentLayer3Pattern: currentLayer3Pattern,
-                    layer3Opacity: document.getElementById('layer3Opacity').value,
-                    layer3Size: document.getElementById('layer3Size').value,
-                    layer3Rotation: document.getElementById('layer3Rotation').value,
-                    layer3OffsetX: document.getElementById('layer3OffsetX').value,
-                    layer3OffsetY: document.getElementById('layer3OffsetY').value,
-                    useLayer4: document.getElementById('useLayer4').checked,
-                    currentLayer4Pattern: currentLayer4Pattern,
-                    layer4Opacity: document.getElementById('layer4Opacity').value,
-                    layer4Size: document.getElementById('layer4Size').value,
-                    layer4Rotation: document.getElementById('layer4Rotation').value,
-                    layer4OffsetX: document.getElementById('layer4OffsetX').value,
-                    layer4OffsetY: document.getElementById('layer4OffsetY').value
+                    layer2OffsetY: document.getElementById('layer2OffsetY').value
                 }
             };
 
@@ -1266,8 +994,8 @@
                 item.innerHTML = `
                     <div class="preset-preview" style="background: linear-gradient(45deg, ${preset.settings.mainColor}, ${preset.settings.subColor})"></div>
                     <div class="preset-name">${preset.name}</div>
-                    <button class="preset-load" onclick="applyPreset(${preset.id})" aria-label="${preset.name}を適用">適用</button>
-                    <button class="preset-delete" onclick="deletePreset(${preset.id})" aria-label="${preset.name}を削除">×</button>
+                    <button class="preset-load" onclick="applyPreset(${preset.id})">適用</button>
+                    <button class="preset-delete" onclick="deletePreset(${preset.id})">×</button>
                 `;
                 presetList.appendChild(item);
             });
@@ -1280,7 +1008,6 @@
 
             const settings = preset.settings;
             
-            // 基本設定
             document.getElementById('mainColor').value = settings.mainColor;
             document.getElementById('subColor').value = settings.subColor;
             document.getElementById('bgColor').value = settings.bgColor;
@@ -1294,13 +1021,11 @@
             document.getElementById('useGradient').checked = settings.useGradient;
             document.getElementById('globalRotation').value = settings.globalRotation;
 
-            // パターン選択
             currentPattern = settings.currentPattern;
             document.querySelectorAll('.pattern-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.pattern === currentPattern);
             });
 
-            // レイヤー2
             document.getElementById('useLayer2').checked = settings.useLayer2;
             document.getElementById('layer2Controls').style.display = settings.useLayer2 ? 'block' : 'none';
             if (settings.useLayer2) {
@@ -1313,36 +1038,6 @@
                 document.getElementById('layer2Rotation').value = settings.layer2Rotation;
                 document.getElementById('layer2OffsetX').value = settings.layer2OffsetX;
                 document.getElementById('layer2OffsetY').value = settings.layer2OffsetY;
-            }
-
-            // レイヤー3
-            document.getElementById('useLayer3').checked = settings.useLayer3;
-            document.getElementById('layer3Controls').style.display = settings.useLayer3 ? 'block' : 'none';
-            if (settings.useLayer3) {
-                currentLayer3Pattern = settings.currentLayer3Pattern;
-                document.querySelectorAll('.layer3-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.pattern === currentLayer3Pattern);
-                });
-                document.getElementById('layer3Opacity').value = settings.layer3Opacity;
-                document.getElementById('layer3Size').value = settings.layer3Size;
-                document.getElementById('layer3Rotation').value = settings.layer3Rotation;
-                document.getElementById('layer3OffsetX').value = settings.layer3OffsetX;
-                document.getElementById('layer3OffsetY').value = settings.layer3OffsetY;
-            }
-
-            // レイヤー4
-            document.getElementById('useLayer4').checked = settings.useLayer4;
-            document.getElementById('layer4Controls').style.display = settings.useLayer4 ? 'block' : 'none';
-            if (settings.useLayer4) {
-                currentLayer4Pattern = settings.currentLayer4Pattern;
-                document.querySelectorAll('.layer4-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.pattern === currentLayer4Pattern);
-                });
-                document.getElementById('layer4Opacity').value = settings.layer4Opacity;
-                document.getElementById('layer4Size').value = settings.layer4Size;
-                document.getElementById('layer4Rotation').value = settings.layer4Rotation;
-                document.getElementById('layer4OffsetX').value = settings.layer4OffsetX;
-                document.getElementById('layer4OffsetY').value = settings.layer4OffsetY;
             }
 
             updatePattern();
@@ -1361,7 +1056,6 @@
             const patterns = ['triangles', 'hexagons', 'circles', 'diamonds', 'waves', 'stripes', 'dots', 'grid'];
             const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd'];
             
-            // ランダム設定
             document.getElementById('mainColor').value = colors[Math.floor(Math.random() * colors.length)];
             document.getElementById('subColor').value = colors[Math.floor(Math.random() * colors.length)];
             document.getElementById('bgOpacity').value = Math.floor(Math.random() * 50) + 50;
@@ -1374,13 +1068,11 @@
             document.getElementById('useGradient').checked = Math.random() > 0.3;
             document.getElementById('globalRotation').value = Math.floor(Math.random() * 360);
 
-            // ランダムパターン
             currentPattern = patterns[Math.floor(Math.random() * patterns.length)];
             document.querySelectorAll('.pattern-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.pattern === currentPattern);
             });
 
-            // ランダムレイヤー2
             const useLayer2 = Math.random() > 0.4;
             document.getElementById('useLayer2').checked = useLayer2;
             document.getElementById('layer2Controls').style.display = useLayer2 ? 'block' : 'none';
@@ -1396,24 +1088,12 @@
                 document.getElementById('layer2OffsetY').value = Math.floor(Math.random() * 80) - 40;
             }
 
-            // ランダムレイヤー3
-            const useLayer3 = Math.random() > 0.6;
-            document.getElementById('useLayer3').checked = useLayer3;
-            document.getElementById('layer3Controls').style.display = useLayer3 ? 'block' : 'none';
-            if (useLayer3) {
-                currentLayer3Pattern = patterns[Math.floor(Math.random() * patterns.length)];
-                document.querySelectorAll('.layer3-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.pattern === currentLayer3Pattern);
-                });
-                document.getElementById('layer3Opacity').value = Math.floor(Math.random() * 30) + 20;
-                document.getElementById('layer3Size').value = Math.floor(Math.random() * 40) + 15;
-                document.getElementById('layer3Rotation').value = Math.floor(Math.random() * 360);
-                document.getElementById('layer3OffsetX').value = Math.floor(Math.random() * 60) - 30;
-                document.getElementById('layer3OffsetY').value = Math.floor(Math.random() * 60) - 30;
-            }
-
             updatePattern();
         }
+
+        // 初期パターン生成
+        updatePattern();
+        loadPresets();
     </script>
 </body>
 </html>
